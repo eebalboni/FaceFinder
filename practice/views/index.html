@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <style></style>
+  <head>
+    <title>Face Finder</title>
+    <link rel="stylesheet" type="text/css" href="styleHome.css">
+  </head>
+  <body>
+    <img src="./images/logo.png" alt="no image available">
+    <h1>Face Finder</h1>
+    <h3>Welcome to Face Finder</h3>
+    <h4>Please upload your image here:</h4>
+    <div class="container">
+        <form id="formSubmit" method="post">
+        <label for="file">Select a file:</label>
+        <input type="file" id="file" name="file"><br><br>
+        <input type="submit" id= "fileSubmit" value="Upload">
+        </form>
+    </div>
+    <script>
+    function uploadImage(e) {
+        e.preventDefault();
+        const fileInput = document.getElementById("file");
+        const files = fileInput.files;
+        const uploadURL = "http://10.111.143.117:8000/api/identify";
+        if (files.length > 0) {
+          const file = files[0];
+          const formData = new FormData();
+          formData.append('image', file);
+          fetch(uploadURL, {
+            method: 'POST',
+            body: formData
+          })
+          
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            //localStorage.setItem("lol", "brooowhatup");
+            localStorage.setItem("faces",JSON.stringify(data));
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            // When the reader has finished reading the file, store the result in local storage
+            reader.onload = function () {
+              const base64Image = reader.result;
+              localStorage.setItem("image", base64Image);
+            };
+
+           // localStorage.setItem("image", file); -->
+            // localStorage.setItem("image", JSON.stringify(file));
+            window.location.href = "display.html";
+          })          
+          .catch(error => {
+            console.error(error);
+          });
+        }
+    }
+    document.getElementById('fileSubmit').addEventListener('click', uploadImage);
+    </script>
+  </body>
+</html>

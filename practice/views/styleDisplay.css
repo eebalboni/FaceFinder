@@ -1,0 +1,51 @@
+/* Set the font family and background color for the whole page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5;
+  }
+  
+  /* Set the font size and color for the headings */
+  h1, h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Set the margin and padding for the headings */
+  h1 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Set the styles for the uploaded image and edited canvas */
+  img#uploadedImage, canvas#editedCanvas {
+    display: inline-block;
+    margin-right: 20px;
+    max-width: 48%;
+  }
+  
+  /* Set the styles for the button */
+  button#downloadBtn {
+    display: block;
+    margin: 20px auto;
+    background-color: #333;
+    color: #FFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Set the styles for the number of people and number of possible people */
+  h1#numOfPeople, h1#numOfPossiblePeople {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+  }
+  

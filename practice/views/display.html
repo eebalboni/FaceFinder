@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styleDisplay.css">
+</head>
+<body>
+  <h2>Original Image vs Edited Image</h2>
+  <img id="uploadedImage">
+  <canvas id="editedCanvas"></canvas>
+  <button id="downloadBtn">Download</button>
+  <h1 id = 'numOfPeople'></h1>
+  <h1 id = 'numOfPossiblePeople'></h1>
+  <script>
+    // const imageUrl = localStorage.getItem("image");
+    const uploadedImage = document.getElementById("uploadedImage");
+    // const image = btoa(localStorage.getItem("image"));
+    uploadedImage.src = localStorage.getItem("image");
+    const facesRaw = localStorage.getItem("faces");
+    const faces = JSON.parse(facesRaw);
+
+    //new image
+    const editedImage = new Image();
+    //source of new image
+    editedImage.src = localStorage.getItem("image");
+    const editedCanvas = document.getElementById('editedCanvas');
+    const editedCtx = editedCanvas.getContext('2d');
+    editedCanvas.width = editedImage.width;
+    editedCanvas.height = editedImage.height;
+    editedCtx.drawImage(editedImage, 0, 0);
+    let count = faces['faces'].length;
+    let countOfPossiblePeople = 0;
+    faces['faces'].forEach(function(face) {
+      //console.log(face);
+      const box = face['box'];
+      const x1 = box[0];
+      const y1 = box[1];
+      const width = box[2];
+      const height = box[3];
+      const confidence = face['confidence'];
+      if(confidence > 0.98){
+        console.log(confidence);
+        editedCtx.beginPath();
+        editedCtx.strokeStyle = 'red'; // Set the line color to red
+        editedCtx.lineWidth = 4; // Set the line width to 5 pixels
+        editedCtx.moveTo(x1, y1);
+        editedCtx.lineTo(x1+width, y1);
+        editedCtx.moveTo(x1, y1);
+        editedCtx.lineTo(x1, y1+height);
+        editedCtx.moveTo(x1, y1 + height);
+        editedCtx.lineTo(x1+width, y1+height);
+        editedCtx.moveTo(x1+width, y1+height);
+        editedCtx.lineTo(x1+width, y1);
+        editedCtx.stroke();
+        console.log(box);
+      }else if(confidence > 0.95 && confidence < 0.98){
+        count --;
+        countOfPossiblePeople ++;
+        console.log(confidence);
+        editedCtx.beginPath();
+        editedCtx.setLineDash([5, 15]);
+        editedCtx.strokeStyle = 'red'; // Set the line color to red
+        editedCtx.lineWidth = 4; // Set the line width to 5 pixels
+        editedCtx.moveTo(x1, y1);
+        editedCtx.lineTo(x1+width, y1);
+        editedCtx.moveTo(x1, y1);
+        editedCtx.lineTo(x1, y1+height);
+        editedCtx.moveTo(x1, y1 + height);
+        editedCtx.lineTo(x1+width, y1+height);
+        editedCtx.moveTo(x1+width, y1+height);
+        editedCtx.lineTo(x1+width, y1);
+        editedCtx.stroke();
+        console.log(box);
+      }else{
+        count --;
+      }
+      document.getElementById('numOfPeople').innerHTML = "Number of people: " + count;
+      document.getElementById('numOfPossiblePeople').innerHTML = "Number of possible people: " + countOfPossiblePeople;
+      console.log(count);
+      // Draw a red line on the edited image
+    });
+
+      // Download the edited image as a PNG file when the button is clicked
+      const downloadBtn = document.getElementById('downloadBtn');
+      downloadBtn.addEventListener('click', function() {
+        const editedCanvas = document.getElementById('editedCanvas');
+        const editedImage = editedCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'edited-image.png';
+        link.href = editedImage;
+        link.click();
+      })
+
+    console.log(localStorage.getItem("image"))
+    console.log(localStorage.getItem("lol"))
+
+  </script>
+</body>
+</html>
