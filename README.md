@@ -12,7 +12,7 @@
 
 ### 3. Run `./run.sh`
 
-### Installation Instructions
+### Installation Instructions if not following Instructions to run above
 
 #### 1. clone the repo
 
@@ -35,5 +35,10 @@
 #### 6. run python -m http.server 9000
 
 #### 7. open a browser and type the url localhost:9000
+
+#### 8. Once browser is open, refresh the page and select an image, the application will open a new 
+#### display window. The original image will first appear, please refresh page to see edited image.
+#### You can download the edited image or use the back button to return to the image select window. 
+#### Before selecting your next image refresh your page. 
 
 #### happy face finding!
